@@ -1,0 +1,21 @@
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form">
+    <f:entry title="Endpoint" field="endpoint" description="Rancher API endpoint">
+        <f:textbox />
+    </f:entry>
+    <f:entry title="ApiToken" field="apiToken" description="Rancher API apiToken">
+        <f:textbox />
+    </f:entry>
+    <f:entry title="ClusterId" field="clusterId" description="Rancher clusterId">
+        <f:textbox />
+    </f:entry>
+    <f:entry title="NamespaceId" field="namespaceId" description="Rancher namespaceId">
+        <f:textbox />
+    </f:entry>
+    <f:entry title="Action" field="action" description="Type of action. redeploy/rollback/pause/resume..">
+        <f:textbox />
+    </f:entry>
+    <f:entry title="ServiceNames" field="serviceNames" description="Format: deployment:ns:serviceA and multiple names separated by commas">
+        <f:textbox />
+    </f:entry>
+</j:jelly>

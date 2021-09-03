@@ -35,7 +35,6 @@ public class HttpUtil {
             connection.setDoOutput(true);
             connection.setDoInput(true);
             connection.setRequestProperty("Authorization", "Bearer " + token);
-            int statusCode = connection.getResponseCode();
             if (param != null) {
                 out = new PrintWriter(connection.getOutputStream());
                 out.print(param);
@@ -47,6 +46,7 @@ public class HttpUtil {
             while ((line = in.readLine()) != null) {
                 data += line;
             }
+            int statusCode = connection.getResponseCode();
             return new HttpResponse(statusCode, data);
         } catch (Exception e) {
             e.printStackTrace();

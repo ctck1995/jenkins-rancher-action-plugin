@@ -18,4 +18,7 @@
     <f:entry title="ServiceNames" field="serviceNames" description="Format: deployment:ns:serviceA and multiple names separated by commas">
         <f:textbox />
     </f:entry>
+    <f:entry title="CheckResult" field="isCheckResult" description="Check if the result value is in the SUCCESS case.">
+        <f:checkbox/>
+    </f:entry>
 </j:jelly>

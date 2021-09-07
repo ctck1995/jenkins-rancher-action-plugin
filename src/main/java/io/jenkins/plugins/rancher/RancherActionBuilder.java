@@ -4,6 +4,7 @@ import hudson.Extension;
 import hudson.FilePath;
 import hudson.Launcher;
 import hudson.model.AbstractProject;
+import hudson.model.Result;
 import hudson.model.Run;
 import hudson.model.TaskListener;
 import hudson.tasks.BuildStepDescriptor;
@@ -26,16 +27,18 @@ public class RancherActionBuilder extends Builder implements SimpleBuildStep {
     private String namespaceId = "";
     private String action = "";
     private String serviceNames = "";
+    private boolean isCheckResult;
 
     @DataBoundConstructor
     public RancherActionBuilder(String endpoint, String apiToken, String clusterId, String namespaceId,
-            String action, String serviceNames) {
+            String action, String serviceNames, boolean isCheckResult) {
         this.endpoint = endpoint;
         this.apiToken = apiToken;
         this.clusterId = clusterId;
         this.namespaceId = namespaceId;
         this.action = action;
         this.serviceNames = serviceNames;
+        this.isCheckResult = isCheckResult;
     }
 
     public String getEndpoint() {
@@ -92,9 +95,26 @@ public class RancherActionBuilder extends Builder implements SimpleBuildStep {
         this.serviceNames = serviceNames;
     }
 
+    public boolean isCheckResult() {
+        return isCheckResult;
+    }
+
+    @DataBoundSetter
+    public void setCheckResult(boolean checkResult) {
+        isCheckResult = checkResult;
+    }
+
     @Override
     public void perform(Run<?, ?> run, FilePath workspace, Launcher launcher, TaskListener listener) throws InterruptedException, IOException {
         listener.getLogger().println("=================================RancherAction==================================");
+        String result = "NO_RESULT";
+        if (run.getResult() != null) {
+            result = run.getResult().toString();
+        }
+        if (isCheckResult && !Result.SUCCESS.toString().equals(result)) {
+            listener.getLogger().println("Result [" + result + "] do not equal SUCCESS.");
+            return;
+        }
         String[] serviceNameArr = serviceNames.split(",");
         String baseUrl = endpoint +
                 "/project" +

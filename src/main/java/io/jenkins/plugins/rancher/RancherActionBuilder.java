@@ -27,18 +27,18 @@ public class RancherActionBuilder extends Builder implements SimpleBuildStep {
     private String namespaceId = "";
     private String action = "";
     private String serviceNames = "";
-    private boolean isCheckResult;
+    private boolean checkResult;
 
     @DataBoundConstructor
     public RancherActionBuilder(String endpoint, String apiToken, String clusterId, String namespaceId,
-            String action, String serviceNames, boolean isCheckResult) {
+            String action, String serviceNames, boolean checkResult) {
         this.endpoint = endpoint;
         this.apiToken = apiToken;
         this.clusterId = clusterId;
         this.namespaceId = namespaceId;
         this.action = action;
         this.serviceNames = serviceNames;
-        this.isCheckResult = isCheckResult;
+        this.checkResult = checkResult;
     }
 
     public String getEndpoint() {
@@ -96,12 +96,12 @@ public class RancherActionBuilder extends Builder implements SimpleBuildStep {
     }
 
     public boolean isCheckResult() {
-        return isCheckResult;
+        return checkResult;
     }
 
     @DataBoundSetter
     public void setCheckResult(boolean checkResult) {
-        isCheckResult = checkResult;
+        this.checkResult = checkResult;
     }
 
     @Override
@@ -111,7 +111,7 @@ public class RancherActionBuilder extends Builder implements SimpleBuildStep {
         if (run.getResult() != null) {
             result = run.getResult().toString();
         }
-        if (isCheckResult && !Result.SUCCESS.toString().equals(result)) {
+        if (checkResult && !Result.SUCCESS.toString().equals(result)) {
             listener.getLogger().println("Result [" + result + "] do not equal SUCCESS.");
             return;
         }
